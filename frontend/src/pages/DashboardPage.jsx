@@ -32,8 +32,13 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className="space-y-8 pb-12">
+      <header className="mb-4">
+        <h1 className="text-3xl font-bold tracking-tight text-white">Productivity Dashboard</h1>
+        <p className="mt-2 text-slate-400">Welcome back. Here is your current momentum and focus metrics.</p>
+      </header>
+
+      <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           label="Total Tasks"
           value={analytics.overview.total}
