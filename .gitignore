@@ -1,27 +1,24 @@
+# Dependencies
 node_modules/
-dist/
-build/
 
+# Environment Variables
 .env
-.env.*
-!.env.example
+.env.local
+.env.production
 
-coverage/
-
-.DS_Store
-Thumbs.db
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-*.local
-
-backend/uploads/
-
+# AI/Agent folders
+.agent/
 .gemini/
 .gsd/
 
-.vscode/
-.idea/
+# Build outputs
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
