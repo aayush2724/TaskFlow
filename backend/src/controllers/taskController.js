@@ -35,6 +35,29 @@ const updateDailyLog = async (userId, dateKey, changes) => {
   );
 };
 
+const pickTaskPayload = (payload) => {
+  const allowedFields = [
+    "title",
+    "description",
+    "notes",
+    "status",
+    "priority",
+    "category",
+    "tags",
+    "dueDate",
+    "subtasks",
+    "isRecurring",
+    "recurrenceRule",
+  ];
+
+  return allowedFields.reduce((taskPayload, field) => {
+    if (Object.prototype.hasOwnProperty.call(payload, field)) {
+      taskPayload[field] = payload[field];
+    }
+    return taskPayload;
+  }, {});
+};
+
 export const getTasks = async (req, res) => {
   const tasks = await Task.find(buildFilters(req.query, req.user._id)).sort({
     order: 1,
@@ -48,9 +71,9 @@ export const getTasks = async (req, res) => {
 export const createTask = async (req, res) => {
   const count = await Task.countDocuments({ user: req.user._id });
   const task = await Task.create({
-    ...req.body,
+    ...pickTaskPayload(req.body),
     user: req.user._id,
-    order: req.body.order ?? count,
+    order: count,
     tags: req.body.tags || [],
     subtasks: req.body.subtasks || [],
   });
@@ -68,7 +91,7 @@ export const updateTask = async (req, res) => {
   }
 
   const wasCompleted = task.status === "completed";
-  Object.assign(task, req.body);
+  Object.assign(task, pickTaskPayload(req.body));
 
   if (req.body.status === "completed" && !wasCompleted) {
     task.completedAt = new Date();
